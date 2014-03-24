@@ -3,6 +3,10 @@
     "description": "背单词Demo",
     "author": "pippo1980.du@gmail.com",
     "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/pippo1980/WordTutor.git"
+    },
     "dependencies": {
         "connect": "2.14.1",
         "express": "3.5.0",
