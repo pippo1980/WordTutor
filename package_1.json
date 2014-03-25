@@ -13,9 +13,8 @@
     "dependencies": {
         "connect": "2.14.1",
         "express": "3.5.0",
-        "jade": "1.3.0",
-        "ejs": "*",
         "jshtml": "*",
+        "jade": "1.3.0",
         "mongoose": "3.8.8",
         "socket.io": "0.9.16"
     },
