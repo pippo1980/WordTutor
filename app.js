@@ -33,6 +33,8 @@ if ('development' == app.get('env')) {
 
 require('./routes/index').start(app);
 require('./routes/regist').start(app);
+require('./routes/exercise').start(app);
+require('./routes/word_manage').start(app);
 
 var http = require('http');
 http.createServer(app).listen(app.get('port'), function () {

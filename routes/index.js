@@ -13,12 +13,12 @@ function index(req, res) {
 function login(req, res, next) {
     var account = req.body;
     console.log("account:[", account, ":]try to login");
-    userService.login(account, function (success, account) {
+    userService.login(account, function (success, info) {
         if (!success) {
             res.render('index', {'account': account, 'error': '用户名密码不正确'});
         } else {
-            res.cookie('account', info, {maxAge: -1, path: '/'});
-            res.redirect("/exercise");
+            res.cookie('account', info);
+            res.redirect("exercise");
         }
     });
 }

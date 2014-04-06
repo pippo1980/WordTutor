@@ -8,7 +8,7 @@ exports.login = function (account, handler) {
             account['id'] = row.id;
             account['name'] = row.name;
         }
-        console.log(handler);
+        //console.log(handler);
         handler(row != null, account);
     });
 }
@@ -16,7 +16,7 @@ exports.login = function (account, handler) {
 exports.save = function (account, handler) {
 
     template.get("select * from user_t where email=?", account.email, function (success, row) {
-        console.log(row)
+        //console.log(row)
         if (success && row != null) {
             handler(false, "邮箱:[" + account.email + "]已注册");
             return;

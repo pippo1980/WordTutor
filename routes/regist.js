@@ -16,8 +16,8 @@ function doPost(req, res) {
         if (!success) {
             res.render('regist', {'account': account, 'error': info});
         } else {
-            res.cookie('account', info, {maxAge: -1, path: '/'});
-            res.redirect("/exercise");
+            res.cookie('account', info);
+            res.redirect("exercise");
         }
     })
 }
