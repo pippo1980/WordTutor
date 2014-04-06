@@ -17,11 +17,11 @@
     <script type="text/javascript">
         $(function () {
             $("#previous").click(function () {
-                self.location = '/exercise/word?start=' + (<%=start%>-1);
+                self.location = '/exercise/phrase?start=' + (<%=start%>-1);
             });
 
             $("#next").click(function () {
-                self.location = '/exercise/word?start=' + (<%=start%>+1);
+                self.location = '/exercise/phrase?start=' + (<%=start%>+1);
             });
 
 
@@ -83,12 +83,12 @@
     <% } %>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">单词学习</h3>
+            <h3 class="panel-title">词组学习</h3>
         </div>
         <div class="panel-body">
             <form id="note-form" class="form-horizontal" role="form" action="/note/word" method="post">
                 <div class="form-group">
-                    <label for="word-form-content" class="col-sm-2 control-label">单词</label>
+                    <label for="word-form-content" class="col-sm-2 control-label">词组</label>
 
                     <div class="col-sm-10">
                         <textarea id="word-form-content" class="form-control" readonly="true"

@@ -16,7 +16,6 @@ function getWordNote(req, res) {
 function persist(req, res) {
     var note = req.body;
     note.user_id = req.cookies.account.id;
-    console.log(note)
     noteSerivce.persist(note, function (success, info) {
         res.send(info);
     })
