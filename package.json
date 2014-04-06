@@ -14,7 +14,8 @@
         "express": "3.5.0",
         "ejs": "1.0.0",
         "sqlite3": "2.2.0",
-        "socket.io": "0.9.16"
+        "socket.io": "0.9.16",
+        "node-uuid": "1.4.1"
     },
     "devDependencies": {
         "vows": "0.5.x",
