@@ -18,7 +18,7 @@ function word(req, res) {
         res.render('exercise/word', {
             account: req.cookies.account || {},
             error: null,
-            word: rows != null ? rows[0] : {},
-            start: rows != null && rows.length > 0 ? start : start - 1});
+            word: rows != null && rows.length > 0 ? rows[0] : {id: null, content: '没有更多的单词了'},
+            start: start});
     })
 }

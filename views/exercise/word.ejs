@@ -18,10 +18,31 @@
         $(function () {
             $("#previous").click(function () {
                 self.location = '/exercise/word?start=' + (<%=start%>-1);
-            })
+            });
 
             $("#next").click(function () {
                 self.location = '/exercise/word?start=' + (<%=start%>+1);
+            });
+
+
+            $.getJSON('/note/word/<%=word.id%>', {}, function (data, textStatus, jqXHR) {
+                if (data.id != null) {
+                    $("#note-form-id").val(data.id);
+                    $("#note-form-word-id").val(data.word_id);
+                    $("#note-form-content").html(data.content);
+                }
+            })
+
+            $("#note-form-submit").click(function () {
+                $.post('/note/word', {
+                    id: $("#note-form-id").val(),
+                    word_id: $("#note-form-word-id").val(),
+                    content: $("#note-form-content").val()}, function (data, textStatus, jqXHR) {
+
+                    $("#note-form-id").val(data.id);
+                    $("#note-form-word-id").val(data.word_id);
+                    $("#note-form-content").html(data.content);
+                })
             })
         })
     </script>
@@ -65,39 +86,34 @@
             <h3 class="panel-title">单词学习</h3>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" role="form" action="/exercise/word" method="get">
+            <form id="note-form" class="form-horizontal" role="form" action="/note/word" method="post">
                 <div class="form-group">
                     <label for="word-form-content" class="col-sm-2 control-label">单词</label>
 
                     <div class="col-sm-10">
-                        <textarea id="word-form-content" name="content" class="form-control" readonly="true"
-                                  rows="6" style="width: 100%">
-                            <% if (word != null){ %>
-                            <%= word.content %>
-                            <% } else { %>
-                            没有更多的单词了
-                            <% } %>
-                        </textarea>
+                        <textarea id="word-form-content" class="form-control" readonly="true"
+                                  rows="6" style="width: 100%"><%= word.content %></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="word-form-note" class="col-sm-2 control-label">笔记</label>
+                    <label for="note-form-content" class="col-sm-2 control-label">笔记</label>
 
                     <div class="col-sm-10">
-                        <textarea id="word-form-note" name="content" class="form-control"
-                                  rows="6" style="width: 100%"></textarea>
+                        <textarea id="note-form-content" name="content" class="form-control"
+                                  rows="6" style="width: 100%">ccc</textarea>
                     </div>
                 </div>
                 <div style="display: table;margin-left: auto;margin-right: auto;">
                     <div class="btn-group btn-group-lg text-center">
-                        <a id="previous" type="button" class="btn btn-default">上一个</a>
-                        <a id="note" type="button" class="btn btn-default">保存</a>
-                        <a id="next" type="button" class="btn btn-default">下一个</a>
-                        <a type="button" class="btn btn-default" href="/exercise">返回</a>
+                        <a id="previous" class="btn btn-default">上一个</a>
+                        <a id="note-form-submit" class="btn btn-default">保存</a>
+                        <a id="next" class="btn btn-default">下一个</a>
+                        <a class=" btn btn-default" href="/exercise">返回</a>
                     </div>
                 </div>
                 <div style="display: none">
-                    <input type="hidden" name="user_id" value="<%= account.id %>"/>
+                    <input type="hidden" id="note-form-id" name="id"/>
+                    <input type="hidden" id="note-form-word-id" name="word_id" value="<%= word.id %>"/>
                 </div>
             </form>
         </div>
