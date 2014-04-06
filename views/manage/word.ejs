@@ -6,27 +6,59 @@
 
     <title><%= title %></title>
 
+    <link rel="stylesheet" href="/static/jquery.colorbox.css"/>
     <link rel="stylesheet" href="/static/bootstrap.min.css"/>
     <link rel="stylesheet" href="/static/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="/static/jquery.colorbox.css"/>
 
-    <script type="text/javascript" src="/static/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="/static/jquery.colorbox-min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap.min.js"></script>
 
     <script type="text/javascript">
         $(function () {
             $("#word-add-button").click(function () {
+                $("#word-form-id").val(null);
+                $("#word-form-type-0").attr('checked', 'checked');
+                $("#word-form-content").html('');
+
                 $.colorbox({
-                    html: $("#word-add-form").html(),
+                    html: $("#word-form").html(),
                     width: 500,
                     height: 400
                 });
             })
+
+            $("[id*=update]").click(function () {
+                var id = $(this).attr('rel');
+                $.getJSON('/manage/word/' + id, {}, function (data, textStatus, jqXHR) {
+                    $("#word-form-id").val(data.id);
+                    $("#word-form-type-" + data.word_type).attr('checked', 'checked');
+                    $("#word-form-content").html(data.content);
+
+                    $.colorbox({
+                        html: $("#word-form").html(),
+                        width: 500,
+                        height: 400
+                    });
+                })
+            });
+
+            $("[id*=delete]").click(function () {
+                if (confirm("确定删除单词")) {
+                    var id = $(this).attr('rel');
+                    $.ajax({
+                        url: '/manage/word/' + id,
+                        type: 'DELETE',
+                        success: function (data, textStatus, jqXHR) {
+                            self.location.reload();
+                        }
+                    })
+                }
+            });
         })
     </script>
 </head>
-<body>
+<body>adfasd
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -79,6 +111,7 @@
                     <th style="width: 5%">#</th>
                     <th style="width: 75%">单词</th>
                     <th>类型</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -98,6 +131,10 @@
                         词组
                         <% } %>
                     </td>
+                    <td>
+                        <a id="update-<%= words[i].id %>" class="btn btn-primary btn-xs" rel="<%= words[i].id %>">修改</a>
+                        <a id="delete-<%= words[i].id %>" class="btn btn-danger btn-xs" rel="<%= words[i].id %>">删除</a>
+                    </td>
                 </tr>
                 <% } %>
                 </tbody>
@@ -109,7 +146,7 @@
         <p>&copy; 2014 <a href="mailto:pippo1980.du@gmail.com?subject=WordTutor" target="_blank">pippo1980.du@gmail.com</a></p>
     </footer>
 </div>
-<div id="word-add-form" style="display: none">
+<div id="word-form" style="display: none">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">新增单词</h3>
@@ -117,32 +154,36 @@
         <div class="panel-body">
             <form class="form-horizontal" role="form" action="/manage/word" method="post">
                 <div class="form-group">
-                    <label for="word.word_type" class="col-sm-2 control-label">类型</label>
+                    <label for="word-form-type" class="col-sm-2 control-label">类型</label>
 
                     <div class="col-sm-10">
                         <div class="radio-inline">
-                            <input id="word.word_type.0" name="word_type" type="radio" value="0" checked>单词</input>
+                            <input id="word-form-type-0" name="word_type" type="radio" value="0" checked>单词</input>
                         </div>
                         <div class="radio-inline">
-                            <input id="word.word_type.1" name="word_type" type="radio" value="1">词组</input>
+                            <input id="word-form-type-1" name="word_type" type="radio" value="1">词组</input>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="word.content" class="col-sm-2 control-label">内容</label>
+                    <label for="word-form-content" class="col-sm-2 control-label">内容</label>
 
                     <div class="col-sm-10">
-                        <textarea id="word.content" name="content" class="form-control" required="true"
+                        <textarea id="word-form-content" name="content" class="form-control" required="true"
                                   rows="6" style="width: 400"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">提交</button>
+                        <button type="submit" class="btn btn-primary btn-xs">提交</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="reset" class="btn btn-primary btn-xs">重置</button>
                     </div>
+                </div>
+
+                <div style="display: none">
+                    <input type="hidden" id="word-form-id" name="id"/>
                 </div>
             </form>
         </div>
