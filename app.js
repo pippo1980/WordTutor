@@ -17,7 +17,7 @@ app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use('static', express.static(path.join(__dirname, 'static')));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use(express.favicon(path.join(__dirname, 'static/images/favicon.ico')));
 
 app.use(express.logger('dev'));

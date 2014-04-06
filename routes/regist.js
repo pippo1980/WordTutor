@@ -1,5 +1,4 @@
-var path = require('path')
-var userService = require(path.join(process.cwd(), 'service/UserService'));
+var userService = require('../service/UserService');
 
 exports.start = function (app) {
     app.get('/regist', doGet);
