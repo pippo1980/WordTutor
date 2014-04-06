@@ -13,6 +13,12 @@ exports.list = function (handler) {
     });
 }
 
+exports.page = function (word_type, start, limit, handler) {
+    template.find("select * from word_t where word_type=? limit ? offset ?", [word_type, limit, start], function (success, rows) {
+        handler(success, rows);
+    });
+}
+
 exports.persist = function (word, handler) {
     if (word.id == null || word.id == '') {
         template.update("insert into word_t values($id, $content, $word_type)",
